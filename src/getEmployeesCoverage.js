@@ -32,14 +32,9 @@ const findAnimals = ({ responsibleFor }) =>
   species.filter(({ id }) => responsibleFor.some((index) => index === id));
 
 function getEmployeesCoverage(searchParam) {
-  try {
-    if (searchParam) {
-      verifyEmployee(searchParam);
-    }
-  } catch (error) {
-    return error.message;
+  if (searchParam) {
+    verifyEmployee(searchParam);
   }
-
   const coverage = findEmployee(searchParam).map((employee) => ({
     id: employee.id,
     fullName: `${employee.firstName} ${employee.lastName}`,
@@ -51,5 +46,3 @@ function getEmployeesCoverage(searchParam) {
 }
 
 module.exports = getEmployeesCoverage;
-
-console.log(getEmployeesCoverage({ id: 'Id inválido' }));
