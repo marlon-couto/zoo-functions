@@ -36,18 +36,18 @@ function getEmployeesCoverage(searchParam) {
     if (searchParam) {
       verifyEmployee(searchParam);
     }
-
-    const coverage = findEmployee(searchParam).map((employee) => ({
-      id: employee.id,
-      fullName: `${employee.firstName} ${employee.lastName}`,
-      species: findAnimals(employee).map((animal) => `${animal.name}`),
-      locations: findAnimals(employee).map((animal) => `${animal.location}`),
-    }));
-
-    return coverage.length > 1 ? coverage : coverage.find((only) => only);
   } catch (error) {
     return error.message;
   }
+
+  const coverage = findEmployee(searchParam).map((employee) => ({
+    id: employee.id,
+    fullName: `${employee.firstName} ${employee.lastName}`,
+    species: findAnimals(employee).map((animal) => `${animal.name}`),
+    locations: findAnimals(employee).map((animal) => `${animal.location}`),
+  }));
+
+  return coverage.length > 1 ? coverage : coverage.find((only) => only);
 }
 
 module.exports = getEmployeesCoverage;
