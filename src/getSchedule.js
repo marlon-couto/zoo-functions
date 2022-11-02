@@ -4,8 +4,8 @@ const { species, hours } = data;
 
 const exhibitionList = (day) =>
   species
-    .filter((specie) => specie.availability.includes(day))
-    .map((animal) => animal.name);
+    .filter(({ availability }) => availability.includes(day))
+    .map(({ name }) => name);
 
 const hourGrade = () =>
   Object.assign(
@@ -25,23 +25,21 @@ const hourGrade = () =>
     }),
   );
 
+const validSpecie = (target) => species.some((specie) => Object.values(specie).includes(target));
+
 function getSchedule(scheduleTarget) {
-  const grade = hourGrade();
-  const validSpecie = species.some((specie) => Object.values(specie).includes(scheduleTarget));
-  const validDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+  if (!scheduleTarget) return hourGrade();
 
-  if (!scheduleTarget) return grade;
-
-  if (validSpecie) {
-    return species.find((specie) => specie.name === scheduleTarget)
+  if (validSpecie(scheduleTarget)) {
+    return species.find(({ name }) => name === scheduleTarget)
       .availability;
   }
-  if (validDays.includes(scheduleTarget)) {
+  if (Object.keys(hours).includes(scheduleTarget)) {
     return {
-      [scheduleTarget]: grade[scheduleTarget],
+      [scheduleTarget]: hourGrade()[scheduleTarget],
     };
   }
-  return grade;
+  return hourGrade();
 }
 
 module.exports = getSchedule;

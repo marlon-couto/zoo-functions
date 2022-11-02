@@ -6,7 +6,7 @@ const greaterAge = (greater, actual) =>
   (greater.age > actual.age ? greater : actual);
 
 const oldestAnimal = (animals) => species
-  .find((specie) => specie.id === animals[0])
+  .find(({ id }) => id === animals[0])
   .residents.reduce(greaterAge, 1);
 
 function getOldestFromFirstSpecies(id) {
